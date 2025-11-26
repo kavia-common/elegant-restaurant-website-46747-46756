@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Card, Toast } from '../components/ui';
+import api from '../utils/api';
 
 /**
  * PUBLIC_INTERFACE
@@ -19,7 +20,7 @@ export default function Contact() {
   const [submitting, setSubmitting] = useState(false);
   const [toast, setToast] = useState(null);
 
-  const apiBase = (process.env.REACT_APP_API_BASE || process.env.REACT_APP_BACKEND_URL || '').replace(/\/+$/, '');
+  // API base and mock handling are encapsulated in utils/api
 
   const mapSrc = useMemo(() => {
     const envSrc = process.env.REACT_APP_MAP_IFRAME_URL;
@@ -44,37 +45,7 @@ export default function Contact() {
     setToast({ variant, title, message, duration });
   };
 
-  // Try to use utils/api if present
-  const tryLoadApi = async () => {
-    try {
-      const mod = await import(/* webpackIgnore: true */ '../utils/api').catch(() => null);
-      return mod;
-    } catch {
-      return null;
-    }
-  };
 
-  const submitToApi = async (payload) => {
-    const apiMod = await tryLoadApi();
-    if (apiMod && typeof apiMod.post === 'function') {
-      return apiMod.post('/contact', payload);
-    }
-    if (apiBase) {
-      const res = await fetch(`${apiBase}/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const text = await res.text().catch(() => '');
-        throw new Error(text || `Request failed with status ${res.status}`);
-      }
-      return res.json().catch(() => ({}));
-    }
-    // Mock fallback
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    return { ok: true };
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +57,7 @@ export default function Contact() {
     }
     setSubmitting(true);
     try {
-      await submitToApi({ ...form });
+      await api.post('/contact', { ...form }, { mockData: { ok: true } });
       showToast('success', 'Message Sent', 'Thanks for reaching out! We will reply shortly.');
       setForm({ name: '', email: '', message: '' });
     } catch (error) {

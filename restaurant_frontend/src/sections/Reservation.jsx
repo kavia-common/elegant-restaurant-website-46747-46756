@@ -1,12 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Card, Toast } from '../components/ui';
+import api from '../utils/api';
 
 /**
  * PUBLIC_INTERFACE
  * Reservation section - accessible form with HTML5 validation and client-side checks.
  * - Fields: name, email, phone, date, time, guests, specialRequests
- * - Submits to `${REACT_APP_API_BASE||REACT_APP_BACKEND_URL}/reservations` via utils/api if available,
- *   else falls back to a mocked success using setTimeout.
+ * - Submits to `/reservations` using utils/api which handles env base and mock fallback.
  * - Shows success/error Toast. Handles loading/disabled and aria-busy on submit button.
  */
 export default function Reservation() {
@@ -31,8 +31,7 @@ export default function Reservation() {
     return `${yyyy}-${mm}-${dd}`;
   }, []);
 
-  const apiBase =
-    (process.env.REACT_APP_API_BASE || process.env.REACT_APP_BACKEND_URL || '').replace(/\/+$/, '');
+  // API base and mock handling are encapsulated in utils/api
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,39 +65,7 @@ export default function Reservation() {
     setToast({ variant, title, message, duration });
   };
 
-  // Try to dynamically import utils/api if present
-  const tryLoadApi = async () => {
-    try {
-      // eslint-disable-next-line import/no-unresolved, global-require
-      const mod = await import(/* webpackIgnore: true */ '../utils/api').catch(() => null);
-      return mod;
-    } catch {
-      return null;
-    }
-  };
 
-  const submitToApi = async (payload) => {
-    // Use utils/api if available and has post, otherwise fetch if base provided, else mock
-    const apiMod = await tryLoadApi();
-    if (apiMod && typeof apiMod.post === 'function') {
-      return apiMod.post('/reservations', payload);
-    }
-    if (apiBase) {
-      const res = await fetch(`${apiBase}/reservations`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!res.ok) {
-        const text = await res.text().catch(() => '');
-        throw new Error(text || `Request failed with status ${res.status}`);
-      }
-      return res.json().catch(() => ({}));
-    }
-    // Mock if no API base or utils/api
-    await new Promise((resolve) => setTimeout(resolve, 900));
-    return { ok: true, id: Math.random().toString(36).slice(2) };
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -113,7 +80,7 @@ export default function Reservation() {
     setSubmitting(true);
     try {
       const payload = { ...form };
-      await submitToApi(payload);
+      await api.post('/reservations', payload, { mockData: { ok: true, id: Math.random().toString(36).slice(2) } });
       showToast('success', 'Reservation Confirmed', 'Your table has been reserved. We look forward to serving you!');
       // Reset most fields except perhaps special requests
       setForm({
