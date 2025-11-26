@@ -5,6 +5,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Menu from './sections/Menu';
+import Reservation from './sections/Reservation';
 
 /**
  * PUBLIC_INTERFACE
@@ -38,24 +39,7 @@ const Gallery = lazy(() =>
   }))
 );
 
-function Reservations() {
-  return (
-    <Card>
-      <p className="mb-4">Call us or drop by to reserve. Online form coming soon.</p>
-      <Button
-        as="a"
-        variant="secondary"
-        href="#contact"
-        onClick={(e) => {
-          e.preventDefault();
-          scrollToId('contact');
-        }}
-      >
-        Contact Us
-      </Button>
-    </Card>
-  );
-}
+
 
 function Testimonials() {
   return (
@@ -169,7 +153,7 @@ function App() {
           title="Reservations"
           description="Book your table and enjoy an evening of culinary delight."
         >
-          <Reservations />
+          <Reservation />
         </UiSection>
 
         <UiSection
