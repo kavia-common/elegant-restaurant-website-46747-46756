@@ -4,6 +4,7 @@ import { Button, Card, Section as UiSection } from './components/ui';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Hero from './components/Hero';
+import Menu from './sections/Menu';
 
 /**
  * PUBLIC_INTERFACE
@@ -36,19 +37,6 @@ const Gallery = lazy(() =>
     default: () => <div className="card">Gallery is not available right now.</div>,
   }))
 );
-
-function Menu() {
-  return (
-    <Card>
-      <h3 className="mb-4">Today’s Highlights</h3>
-      <ul style={{ margin: 0, paddingLeft: '1rem', color: 'var(--color-text-light)' }}>
-        <li>Seared Scallops with Citrus Glaze</li>
-        <li>Grilled Salmon with Herb Butter</li>
-        <li>Lobster Risotto with Saffron</li>
-      </ul>
-    </Card>
-  );
-}
 
 function Reservations() {
   return (
