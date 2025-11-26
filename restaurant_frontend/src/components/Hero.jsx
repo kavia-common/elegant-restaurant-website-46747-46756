@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from './ui';
+import heroImg from '../assets/hero.jpg';
 
 /**
  * PUBLIC_INTERFACE
@@ -59,8 +60,7 @@ export default function Hero({ onViewMenu, onBookTable }) {
           position: 'absolute',
           inset: 0,
           zIndex: -1,
-          backgroundImage:
-            'url(https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?q=80&w=1600&auto=format&fit=crop)',
+          backgroundImage: `url(${heroImg})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           opacity: 0.22,

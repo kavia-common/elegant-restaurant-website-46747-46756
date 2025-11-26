@@ -9,79 +9,16 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
  * - Ocean Professional styling and accessibility
  */
 export default function Gallery() {
-  // Sample images (unsplash) with varying aspect ratios to mimic a real gallery
+  // Prefer local placeholder assets; can be replaced with real images later
+  const local = (n) => require(`../assets/gallery/${n}.jpg`);
   const items = useMemo(
     () => [
-      {
-        id: 'g1',
-        src: 'https://images.unsplash.com/photo-1523474253046-8cd2748b5fd2?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Grilled salmon with herbs, plated elegantly',
-        width: 1200,
-        height: 800,
-      },
-      {
-        id: 'g2',
-        src: 'https://images.unsplash.com/photo-1529694157871-0599db08f1b3?q=80&w=1100&auto=format&fit=crop',
-        alt: 'Close-up of seared scallops with garnish',
-        width: 1100,
-        height: 733,
-      },
-      {
-        id: 'g3',
-        src: 'https://images.unsplash.com/photo-1498654200943-1088dd4438ae?q=80&w=1000&auto=format&fit=crop',
-        alt: 'Restaurant interior with waterfront ambience',
-        width: 1000,
-        height: 1500,
-      },
-      {
-        id: 'g4',
-        src: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Lobster risotto with saffron, top-down view',
-        width: 1200,
-        height: 800,
-      },
-      {
-        id: 'g5',
-        src: 'https://images.unsplash.com/photo-1541542684-4a5c02b2c321?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Chef plating seafood linguine',
-        width: 1200,
-        height: 800,
-      },
-      {
-        id: 'g6',
-        src: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=900&auto=format&fit=crop',
-        alt: 'Dessert with citrus tart and cream',
-        width: 900,
-        height: 600,
-      },
-      {
-        id: 'g7',
-        src: 'https://images.unsplash.com/photo-1526318472351-c75fcf070305?q=80&w=900&auto=format&fit=crop',
-        alt: 'Wine pairing on a table near the window',
-        width: 900,
-        height: 1200,
-      },
-      {
-        id: 'g8',
-        src: 'https://images.unsplash.com/photo-1519731379826-bf3a1d8abf8d?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Oysters on ice with lemon and mignonette',
-        width: 1200,
-        height: 800,
-      },
-      {
-        id: 'g9',
-        src: 'https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1100&auto=format&fit=crop',
-        alt: 'Ambient lighting and bar setup in the evening',
-        width: 1100,
-        height: 733,
-      },
-      {
-        id: 'g10',
-        src: 'https://images.unsplash.com/photo-1528697203043-733bfdcae06f?q=80&w=1200&auto=format&fit=crop',
-        alt: 'Fresh oysters being served',
-        width: 1200,
-        height: 900,
-      },
+      { id: 'g1', src: local(1), alt: 'Grilled salmon with herbs, plated elegantly', width: 1200, height: 800 },
+      { id: 'g2', src: local(2), alt: 'Close-up of seared scallops with garnish', width: 1100, height: 733 },
+      { id: 'g3', src: local(3), alt: 'Restaurant interior with waterfront ambience', width: 1000, height: 1500 },
+      { id: 'g4', src: local(4), alt: 'Lobster risotto with saffron, top-down view', width: 1200, height: 800 },
+      { id: 'g5', src: local(5), alt: 'Chef plating seafood linguine', width: 1200, height: 800 },
+      { id: 'g6', src: local(6), alt: 'Dessert with citrus tart and cream', width: 900, height: 600 },
     ],
     []
   );

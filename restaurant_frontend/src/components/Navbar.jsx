@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../assets/logo.svg';
 
 /**
  * PUBLIC_INTERFACE
@@ -45,8 +46,17 @@ export default function Navbar({
             if (onNavigate) onNavigate('home');
           }}
           aria-label="Go to home"
+          style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem' }}
         >
-          <strong>Ocean</strong> Bistro
+          <img
+            src={logo}
+            width="28"
+            height="28"
+            alt=""
+            aria-hidden="true"
+            style={{ display: 'block' }}
+          />
+          <span><strong>Ocean</strong> Bistro</span>
         </a>
 
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
