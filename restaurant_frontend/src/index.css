@@ -1,4 +1,5 @@
 @import url('./styles/theme.css');
+@import url('./components/ui/ui.css');
 
 /* Additional global tweaks that complement theme.css */
 :root {

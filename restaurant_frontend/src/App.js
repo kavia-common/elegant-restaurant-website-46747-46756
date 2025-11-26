@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState, Suspense, lazy } from 'react';
 import './App.css';
+import { Button, Card, Section as UiSection } from './components/ui';
 
 /**
  * Smooth scroll helper for in-page anchors. Accounts for a fixed navbar offset.
@@ -110,22 +111,7 @@ function Footer() {
   );
 }
 
-/**
- * Section wrappers
- */
-function Section({ id, title, children, soft = false, description }) {
-  return (
-    <section id={id} className={`section${soft ? ' soft' : ''}`} aria-labelledby={`${id}-title`}>
-      <div className="container">
-        <header style={{ marginBottom: 'var(--space-6)' }}>
-          <h2 id={`${id}-title`}>{title}</h2>
-          {description ? <p style={{ maxWidth: 720 }}>{description}</p> : null}
-        </header>
-        {children}
-      </div>
-    </section>
-  );
-}
+
 
 // Lazy-load Gallery to keep initial bundle small
 const Gallery = lazy(() => import('./components/Gallery').catch(() => ({ default: () => (
@@ -141,9 +127,24 @@ function Hero() {
       <div className="card" style={{ textAlign: 'center', background: 'var(--gradient-soft)' }}>
         <h1 className="mb-4">Savor the Ocean, Dine with Elegance</h1>
         <p className="mb-6">Fresh seafood, seasonal ingredients, and a modern dining experience.</p>
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-4)' }}>
+          <div style={{ maxWidth: 520 }}>
+            {/* Example static toast */}
+            <div className="ui-toast ui-toast--info" role="status" aria-live="polite">
+              <div className="ui-toast__content">
+                <div className="ui-toast__title">Now Taking Reservations</div>
+                <div className="ui-toast__message">Book ahead for the weekend rush.</div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-          <a className="btn" href="#reservation" onClick={(e) => { e.preventDefault(); scrollToId('reservation'); }}>Reserve a Table</a>
-          <a className="btn ghost" href="#menu" onClick={(e) => { e.preventDefault(); scrollToId('menu'); }}>View Menu</a>
+          <Button as="a" href="#reservation" onClick={(e) => { e.preventDefault(); scrollToId('reservation'); }}>
+            Reserve a Table
+          </Button>
+          <Button as="a" variant="ghost" href="#menu" onClick={(e) => { e.preventDefault(); scrollToId('menu'); }}>
+            View Menu
+          </Button>
         </div>
       </div>
     </div>
@@ -152,45 +153,47 @@ function Hero() {
 
 function Menu() {
   return (
-    <div className="card">
+    <Card>
       <h3 className="mb-4">Today’s Highlights</h3>
       <ul style={{ margin: 0, paddingLeft: '1rem', color: 'var(--color-text-light)' }}>
         <li>Seared Scallops with Citrus Glaze</li>
         <li>Grilled Salmon with Herb Butter</li>
         <li>Lobster Risotto with Saffron</li>
       </ul>
-    </div>
+    </Card>
   );
 }
 
 function Reservation() {
   return (
-    <div className="card">
+    <Card>
       <p className="mb-4">Call us or drop by to reserve. Online form coming soon.</p>
-      <a className="btn" href="#contact" onClick={(e) => { e.preventDefault(); scrollToId('contact'); }}>Contact Us</a>
-    </div>
+      <Button as="a" href="#contact" onClick={(e) => { e.preventDefault(); scrollToId('contact'); }}>
+        Contact Us
+      </Button>
+    </Card>
   );
 }
 
 function Testimonials() {
   return (
-    <div className="card">
+    <Card variant="outlined">
       <blockquote className="mb-2" style={{ margin: 0, fontStyle: 'italic' }}>
         “An unforgettable dining experience. The flavors were exquisite.”
       </blockquote>
       <p style={{ margin: 0, color: 'var(--color-muted)' }}>— A Happy Guest</p>
-    </div>
+    </Card>
   );
 }
 
 function Contact() {
   return (
-    <div className="card">
+    <Card>
       <p className="mb-2"><strong>Location:</strong> 123 Seaside Ave, Bay City</p>
       <p className="mb-2"><strong>Hours:</strong> Tue–Sun, 5pm–10pm</p>
       <p className="mb-4"><strong>Phone:</strong> (123) 456-7890</p>
-      <a className="btn secondary" href="tel:+11234567890">Call Now</a>
-    </div>
+      <Button as="a" variant="secondary" href="tel:+11234567890">Call Now</Button>
+    </Card>
   );
 }
 
@@ -255,33 +258,33 @@ function App() {
           <Hero />
         </section>
 
-        <Section
+        <UiSection
           id="menu"
           title="Our Menu"
           description="A curated selection of ocean-inspired dishes, crafted daily by our chefs."
           soft
         >
           <Menu />
-        </Section>
+        </UiSection>
 
-        <Section
+        <UiSection
           id="reservation"
           title="Reservation"
           description="Book your table and enjoy an evening of culinary delight."
         >
           <Reservation />
-        </Section>
+        </UiSection>
 
-        <Section
+        <UiSection
           id="testimonials"
           title="What Guests Say"
           description="Real experiences from diners who loved their time with us."
           soft
         >
           <Testimonials />
-        </Section>
+        </UiSection>
 
-        <Section
+        <UiSection
           id="gallery"
           title="Gallery"
           description="A glimpse into our ambience and signature plates."
@@ -289,16 +292,16 @@ function App() {
           <Suspense fallback={<div className="card">Loading gallery…</div>}>
             <Gallery />
           </Suspense>
-        </Section>
+        </UiSection>
 
-        <Section
+        <UiSection
           id="contact"
           title="Contact Us"
           description="We’d love to hear from you. Reach out for reservations or questions."
           soft
         >
           <Contact />
-        </Section>
+        </UiSection>
       </main>
 
       <Footer />

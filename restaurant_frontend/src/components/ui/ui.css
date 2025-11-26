@@ -1,0 +1,159 @@
+/* UI Primitives built on top of src/styles/theme.css variables */
+
+/* Button */
+.ui-btn {
+  --btn-bg: var(--color-primary);
+  --btn-bg-hover: var(--color-primary-600);
+  --btn-color: #fff;
+  --btn-border: transparent;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--btn-color);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+  text-decoration: none;
+  user-select: none;
+}
+
+.ui-btn--sm { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); }
+.ui-btn--md { padding: var(--space-3) var(--space-5); font-size: var(--text-base); }
+.ui-btn--lg { padding: var(--space-4) var(--space-6); font-size: var(--text-lg); }
+
+.ui-btn:hover {
+  background: var(--btn-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.ui-btn:active {
+  transform: translateY(0);
+}
+
+.ui-btn--disabled,
+.ui-btn[disabled],
+.ui-btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Variants */
+.ui-btn--primary { --btn-bg: var(--color-primary); --btn-bg-hover: var(--color-primary-600); --btn-color: #fff; }
+.ui-btn--secondary { --btn-bg: var(--color-secondary); --btn-bg-hover: var(--color-secondary-600); --btn-color: #111; }
+.ui-btn--ghost {
+  --btn-bg: transparent;
+  --btn-bg-hover: color-mix(in srgb, var(--color-primary) 10%, white);
+  --btn-color: var(--color-primary);
+  --btn-border: var(--color-border);
+}
+
+/* Spinner */
+.ui-btn__spinner {
+  width: 1em;
+  height: 1em;
+  border-radius: 9999px;
+  border: 2px solid color-mix(in srgb, #fff 40%, transparent);
+  border-top-color: currentColor;
+  animation: ui-spin var(--transition-slow) linear infinite;
+}
+@keyframes ui-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Card */
+.ui-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  color: var(--color-text);
+  overflow: hidden;
+}
+.ui-card--elevated {
+  box-shadow: var(--shadow-md);
+}
+.ui-card--outlined {
+  box-shadow: none;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 20%, var(--color-border));
+}
+
+.ui-card__header,
+.ui-card__footer {
+  padding: var(--space-4) var(--space-6);
+  background: color-mix(in srgb, var(--color-bg) 60%, white);
+  border-bottom: 1px solid var(--color-border);
+}
+.ui-card__footer { border-top: 1px solid var(--color-border); border-bottom: 0; }
+
+.ui-card__body {
+  padding: var(--space-6);
+}
+
+/* Section */
+.ui-section {
+  padding: var(--space-12) 0;
+}
+.ui-section--soft {
+  background: var(--gradient-soft);
+}
+.ui-section__header {
+  margin-bottom: var(--space-6);
+}
+.ui-section__title {
+  margin: 0 0 var(--space-2);
+}
+.ui-section__description {
+  max-width: 72ch;
+  margin: 0;
+  color: var(--color-text-light);
+}
+.ui-section__content {}
+
+/* Toast */
+.ui-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  min-width: 240px;
+}
+
+.ui-toast--info { border-color: color-mix(in srgb, var(--color-primary) 30%, var(--color-border)); }
+.ui-toast--success { border-color: color-mix(in srgb, var(--color-success) 40%, var(--color-border)); }
+.ui-toast--warning { border-color: color-mix(in srgb, var(--color-warning) 40%, var(--color-border)); }
+.ui-toast--error { border-color: color-mix(in srgb, var(--color-error) 40%, var(--color-border)); }
+
+.ui-toast__title {
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+.ui-toast__message {
+  color: var(--color-text-light);
+}
+.ui-toast__content {
+  display: grid;
+}
+
+.ui-toast__close {
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+}
+.ui-toast__close:hover {
+  background: color-mix(in srgb, var(--color-primary) 10%, white);
+}
