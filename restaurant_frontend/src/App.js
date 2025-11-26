@@ -3,6 +3,7 @@ import './App.css';
 import { Button, Card, Section as UiSection } from './components/ui';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Hero from './components/Hero';
 
 /**
  * PUBLIC_INTERFACE
@@ -35,53 +36,6 @@ const Gallery = lazy(() =>
     default: () => <div className="card">Gallery is not available right now.</div>,
   }))
 );
-
-/**
- * Temporary placeholder components for each section content.
- */
-function Hero() {
-  return (
-    <div className="container" style={{ paddingTop: 'var(--space-12)', paddingBottom: 'var(--space-12)' }}>
-      <div className="card" style={{ textAlign: 'center', background: 'var(--gradient-soft)' }}>
-        <h1 className="mb-4">Savor the Ocean, Dine with Elegance</h1>
-        <p className="mb-6">Fresh seafood, seasonal ingredients, and a modern dining experience.</p>
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-4)' }}>
-          <div style={{ maxWidth: 520 }}>
-            <div className="ui-toast ui-toast--info" role="status" aria-live="polite">
-              <div className="ui-toast__content">
-                <div className="ui-toast__title">Now Taking Reservations</div>
-                <div className="ui-toast__message">Book ahead for the weekend rush.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-          <Button
-            as="a"
-            href="#reservations"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId('reservations');
-            }}
-          >
-            Reserve a Table
-          </Button>
-          <Button
-            as="a"
-            variant="ghost"
-            href="#menu"
-            onClick={(e) => {
-              e.preventDefault();
-              scrollToId('menu');
-            }}
-          >
-            View Menu
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function Menu() {
   return (
@@ -207,7 +161,10 @@ function App() {
 
       <main>
         <section id="home" aria-label="Hero" style={{ paddingTop: 'var(--space-6)' }}>
-          <Hero />
+          <Hero
+            onViewMenu={() => handleNavigate('menu')}
+            onBookTable={() => handleNavigate('reservations')}
+          />
         </section>
 
         <UiSection
