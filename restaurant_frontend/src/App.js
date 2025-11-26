@@ -7,6 +7,7 @@ import Hero from './components/Hero';
 import Menu from './sections/Menu';
 import Reservation from './sections/Reservation';
 import Testimonials from './sections/Testimonials';
+import Contact from './sections/Contact';
 
 /**
  * PUBLIC_INTERFACE
@@ -44,24 +45,7 @@ const Gallery = lazy(() =>
 
 
 
-function Contact() {
-  return (
-    <Card>
-      <p className="mb-2">
-        <strong>Location:</strong> 123 Seaside Ave, Bay City
-      </p>
-      <p className="mb-2">
-        <strong>Hours:</strong> Tue–Sun, 5pm–10pm
-      </p>
-      <p className="mb-4">
-        <strong>Phone:</strong> (123) 456-7890
-      </p>
-      <Button as="a" variant="secondary" href="tel:+11234567890">
-        Call Now
-      </Button>
-    </Card>
-  );
-}
+
 
 // PUBLIC_INTERFACE
 function App() {
