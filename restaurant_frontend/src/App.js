@@ -1,8 +1,11 @@
 import React, { useEffect, useMemo, useState, Suspense, lazy } from 'react';
 import './App.css';
 import { Button, Card, Section as UiSection } from './components/ui';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
 /**
+ * PUBLIC_INTERFACE
  * Smooth scroll helper for in-page anchors. Accounts for a fixed navbar offset.
  */
 function scrollToId(id, offset = 72) {
@@ -26,97 +29,12 @@ function getActiveSection(sectionIds, offset = 80) {
   return current;
 }
 
-/**
- * Simple brand logo text.
- */
-function Brand() {
-  return (
-    <a href="#hero" className="brand" onClick={(e) => { e.preventDefault(); scrollToId('hero'); }}>
-      <strong>Ocean</strong> Bistro
-    </a>
-  );
-}
-
-/**
- * Navbar with anchored links and active state.
- */
-function Navbar({ links, active, onNavigate, onToggleTheme, theme }) {
-  return (
-    <nav
-      className="navbar"
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        background: 'var(--color-surface)',
-        borderBottom: '1px solid var(--color-border)',
-        boxShadow: 'var(--shadow-sm)',
-      }}
-      aria-label="Primary"
-    >
-      <div className="container" style={{ display: 'flex', alignItems: 'center', gap: '1rem', justifyContent: 'space-between', padding: '0.75rem 0' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <Brand />
-          <span className="sr-only" aria-hidden="true" />
-        </div>
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-          {links.map((l) => (
-            <a
-              key={l.id}
-              href={`#${l.id}`}
-              onClick={(e) => { e.preventDefault(); onNavigate(l.id); }}
-              className={active === l.id ? 'active' : ''}
-              style={{
-                padding: '0.5rem 0.75rem',
-                borderRadius: 'var(--radius-full)',
-                color: active === l.id ? 'var(--color-primary)' : 'var(--color-text-light)',
-                fontWeight: active === l.id ? 700 : 600,
-                background: active === l.id ? 'color-mix(in srgb, var(--color-primary) 10%, white)' : 'transparent',
-              }}
-            >
-              {l.label}
-            </a>
-          ))}
-          <button
-            className="btn ghost"
-            onClick={onToggleTheme}
-            aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-            title="Toggle theme"
-          >
-            {theme === 'light' ? '🌙' : '☀️'}
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-}
-
-/**
- * Footer with simple credits.
- */
-function Footer() {
-  return (
-    <footer
-      className="section"
-      style={{
-        borderTop: '1px solid var(--color-border)',
-        background: 'var(--color-surface)',
-      }}
-    >
-      <div className="container" style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center', justifyContent: 'space-between' }}>
-        <p style={{ margin: 0 }}>© {new Date().getFullYear()} Ocean Bistro. All rights reserved.</p>
-        <p style={{ margin: 0 }}>Crafted with <span aria-hidden>💙</span> using React.</p>
-      </div>
-    </footer>
-  );
-}
-
-
-
 // Lazy-load Gallery to keep initial bundle small
-const Gallery = lazy(() => import('./components/Gallery').catch(() => ({ default: () => (
-  <div className="card">Gallery is not available right now.</div>
-)})));
+const Gallery = lazy(() =>
+  import('./components/Gallery').catch(() => ({
+    default: () => <div className="card">Gallery is not available right now.</div>,
+  }))
+);
 
 /**
  * Temporary placeholder components for each section content.
@@ -129,7 +47,6 @@ function Hero() {
         <p className="mb-6">Fresh seafood, seasonal ingredients, and a modern dining experience.</p>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-4)' }}>
           <div style={{ maxWidth: 520 }}>
-            {/* Example static toast */}
             <div className="ui-toast ui-toast--info" role="status" aria-live="polite">
               <div className="ui-toast__content">
                 <div className="ui-toast__title">Now Taking Reservations</div>
@@ -139,10 +56,25 @@ function Hero() {
           </div>
         </div>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center' }}>
-          <Button as="a" href="#reservation" onClick={(e) => { e.preventDefault(); scrollToId('reservation'); }}>
+          <Button
+            as="a"
+            href="#reservations"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToId('reservations');
+            }}
+          >
             Reserve a Table
           </Button>
-          <Button as="a" variant="ghost" href="#menu" onClick={(e) => { e.preventDefault(); scrollToId('menu'); }}>
+          <Button
+            as="a"
+            variant="ghost"
+            href="#menu"
+            onClick={(e) => {
+              e.preventDefault();
+              scrollToId('menu');
+            }}
+          >
             View Menu
           </Button>
         </div>
@@ -164,11 +96,19 @@ function Menu() {
   );
 }
 
-function Reservation() {
+function Reservations() {
   return (
     <Card>
       <p className="mb-4">Call us or drop by to reserve. Online form coming soon.</p>
-      <Button as="a" href="#contact" onClick={(e) => { e.preventDefault(); scrollToId('contact'); }}>
+      <Button
+        as="a"
+        variant="secondary"
+        href="#contact"
+        onClick={(e) => {
+          e.preventDefault();
+          scrollToId('contact');
+        }}
+      >
         Contact Us
       </Button>
     </Card>
@@ -189,10 +129,18 @@ function Testimonials() {
 function Contact() {
   return (
     <Card>
-      <p className="mb-2"><strong>Location:</strong> 123 Seaside Ave, Bay City</p>
-      <p className="mb-2"><strong>Hours:</strong> Tue–Sun, 5pm–10pm</p>
-      <p className="mb-4"><strong>Phone:</strong> (123) 456-7890</p>
-      <Button as="a" variant="secondary" href="tel:+11234567890">Call Now</Button>
+      <p className="mb-2">
+        <strong>Location:</strong> 123 Seaside Ave, Bay City
+      </p>
+      <p className="mb-2">
+        <strong>Hours:</strong> Tue–Sun, 5pm–10pm
+      </p>
+      <p className="mb-4">
+        <strong>Phone:</strong> (123) 456-7890
+      </p>
+      <Button as="a" variant="secondary" href="tel:+11234567890">
+        Call Now
+      </Button>
     </Card>
   );
 }
@@ -206,20 +154,24 @@ function App() {
     document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
-  const sectionLinks = useMemo(() => ([
-    { id: 'hero', label: 'Home' },
-    { id: 'menu', label: 'Menu' },
-    { id: 'reservation', label: 'Reservation' },
-    { id: 'testimonials', label: 'Testimonials' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'contact', label: 'Contact' },
-  ]), []);
+  // IDs aligned to request: #home, #menu, #reservations, #testimonials, #gallery, #contact
+  const sectionLinks = useMemo(
+    () => [
+      { id: 'home', label: 'Home' },
+      { id: 'menu', label: 'Menu' },
+      { id: 'reservations', label: 'Reservations' },
+      { id: 'testimonials', label: 'Testimonials' },
+      { id: 'gallery', label: 'Gallery' },
+      { id: 'contact', label: 'Contact' },
+    ],
+    []
+  );
 
   const [active, setActive] = useState(sectionLinks[0].id);
 
   // Track active link on scroll
   useEffect(() => {
-    const ids = sectionLinks.map(l => l.id);
+    const ids = sectionLinks.map((l) => l.id);
     const onScroll = () => {
       const current = getActiveSection(ids);
       setActive(current);
@@ -235,7 +187,7 @@ function App() {
 
   // PUBLIC_INTERFACE
   const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
   };
 
   const handleNavigate = (id) => {
@@ -254,7 +206,7 @@ function App() {
       />
 
       <main>
-        <section id="hero" aria-label="Hero" style={{ paddingTop: 'var(--space-6)' }}>
+        <section id="home" aria-label="Hero" style={{ paddingTop: 'var(--space-6)' }}>
           <Hero />
         </section>
 
@@ -268,11 +220,11 @@ function App() {
         </UiSection>
 
         <UiSection
-          id="reservation"
-          title="Reservation"
+          id="reservations"
+          title="Reservations"
           description="Book your table and enjoy an evening of culinary delight."
         >
-          <Reservation />
+          <Reservations />
         </UiSection>
 
         <UiSection
@@ -284,11 +236,7 @@ function App() {
           <Testimonials />
         </UiSection>
 
-        <UiSection
-          id="gallery"
-          title="Gallery"
-          description="A glimpse into our ambience and signature plates."
-        >
+        <UiSection id="gallery" title="Gallery" description="A glimpse into our ambience and signature plates.">
           <Suspense fallback={<div className="card">Loading gallery…</div>}>
             <Gallery />
           </Suspense>
