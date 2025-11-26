@@ -6,6 +6,7 @@ import Footer from './components/Footer';
 import Hero from './components/Hero';
 import Menu from './sections/Menu';
 import Reservation from './sections/Reservation';
+import Testimonials from './sections/Testimonials';
 
 /**
  * PUBLIC_INTERFACE
@@ -41,16 +42,7 @@ const Gallery = lazy(() =>
 
 
 
-function Testimonials() {
-  return (
-    <Card variant="outlined">
-      <blockquote className="mb-2" style={{ margin: 0, fontStyle: 'italic' }}>
-        “An unforgettable dining experience. The flavors were exquisite.”
-      </blockquote>
-      <p style={{ margin: 0, color: 'var(--color-muted)' }}>— A Happy Guest</p>
-    </Card>
-  );
-}
+
 
 function Contact() {
   return (
